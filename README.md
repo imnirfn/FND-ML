@@ -28,7 +28,7 @@ https://github.com/guidiandrea/udacityCapstone-FakeNewsDetector
   representation of the texts, either by using word counts, one hot encoding of term
   **frequencyinverse document frequency that can be used together with other features**
   (extracted from date, for example) to train the model;
-- Instead, if a **[Deep Learning](Deep_Learning.md) model** is chosen, such as a Recurrent Neural Network, one could
+- Instead, if a **Deep Learning model** is chosen, such as a Recurrent Neural Network, one could
   think of using **only directly text sequences padded to same length and mapped with a**
   word_to_integer vocabulary. Then, the neural network can be trained to solve a binary
   classification problem with a **binary cross-entropy loss.**
