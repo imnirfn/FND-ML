@@ -74,7 +74,6 @@ payload = ','.join(flat_seq)
 from botocore.config import Config
 
 config = Config(
-        proxies={'https': '192.168.49.1:8000'},
         region_name='ap-southeast-1',
         )
 
