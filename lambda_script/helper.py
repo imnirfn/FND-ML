@@ -1,17 +1,7 @@
-from dateutil import parser
 import nltk
 from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
-import numpy as np
 
-def parse_date(x):
-    
-    try: 
-        return parser.parse(x)
-    
-    except:
-        return np.nan
-    
 def process_text(text, length=False, stem=False):
     
     try:
@@ -36,8 +26,3 @@ def process_text(text, length=False, stem=False):
         return cleaned_text,length_of_text
     else:
         return cleaned_text
-    
-def csv_to_s3(df, prefix,filename, bucket, header=False):
-    
-    df.to_csv(filename, header, index=False)
-    sagemaker_session.upload_data(bucket=bucket, key_prefix=prefix, path=filename)

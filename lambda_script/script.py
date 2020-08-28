@@ -1,7 +1,9 @@
-from helper import process_text
 import pickle
-from tensorflow.keras.preprocessing.text import Tokenizer
+import json
+#from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing import sequence
+import boto3
+from helper import process_text
 
 # True News
 inputArticle = 'WASHINGTON (Reuters) - The head of a conservative Republican faction in the U.S.'\
@@ -62,6 +64,26 @@ with open('tokenizer.pkl', 'rb') as f:
 seq = tokenizer.texts_to_sequences(cleanedArticleNoStem)
 sequence.pad_sequences(seq, maxlen=500, padding='post')
 
-print(seq)
+#print(seq)
+flat_seq = [item for sublist in seq for item in sublist]
+flat_seq = [str(item) for sublist in seq for item in sublist]
+payload = ','.join(flat_seq)
+#print(payload)
 
 # Call sagemaker endpoint
+from botocore.config import Config
+
+config = Config(
+        proxies={'https': '192.168.49.1:8000'},
+        region_name='ap-southeast-1',
+        )
+
+session = boto3.Session(profile_name='tinggitecc-dev')
+runtime = session.client('runtime.sagemaker', config=config)
+response = runtime.invoke_endpoint(EndpointName='tensorflow-training-2020-08-28-05-46-18-544',
+                                       ContentType='text/csv',
+                                       Body=payload)
+#print(response)
+result = json.loads(response['Body'].read().decode())
+print(result)
+
