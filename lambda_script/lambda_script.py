@@ -5,6 +5,7 @@ import json
 import boto3
 import pickle
 import pandas as pd
+from helper import process_text
 from tensorflow.keras.preprocessing import sequence
 
 # grab environment variables
