@@ -44,4 +44,4 @@ def lambda_handler(event, context):
     result = json.loads(response['Body'].read().decode())
     print(result)
     
-    return predicted_label
+    return result
