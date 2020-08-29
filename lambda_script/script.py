@@ -1,12 +1,12 @@
 import pickle
 import json
-#from tensorflow.keras.preprocessing.text import Tokenizer
+import pandas as pd
 from tensorflow.keras.preprocessing import sequence
 import boto3
 from helper import process_text
 
 # True News
-inputArticle = 'WASHINGTON (Reuters) - The head of a conservative Republican faction in the U.S.'\
+trueArticle = 'WASHINGTON (Reuters) - The head of a conservative Republican faction in the U.S.'\
 'Congress, who voted this month for a huge expansion of the national debt to pay for tax cuts,called'\
 'himself a “fiscal conservative” on Sunday and urged budget restraint in 2018. In keeping with a'\
 'sharp pivot under way among Republicans, U.S. Representative Mark Meadows, speaking on CBS’ “Face'\
@@ -55,34 +55,75 @@ inputArticle = 'WASHINGTON (Reuters) - The head of a conservative Republican fac
 'California. The package far exceeded the $44 billion requested by the Trump administration. The'\
 'Senate has not yet voted on the aid. '
 
-cleanedArticleNoStem = process_text(inputArticle, length=False, stem=True)
-print(cleanedArticleNoStem)
+falseArticle = 'Donald Trump just couldn t wish all Americans a Happy New Year and leave it at'\
+'that. Instead, he had to give a shout out to his enemies, haters and  the very dishonest fake news'\
+'media.  The former reality show star had just one job to do and he couldn t do it. As our Country'\
+'rapidly grows stronger and smarter, I want to wish all of my friends, supporters, enemies, haters,'\
+'and even the very dishonest Fake News Media, a Happy and Healthy New Year,  President Angry Pants'\
+'tweeted.  2018 will be a great year for America! As our Country rapidly grows stronger and smarter,'\
+'I want to wish all of my friends, supporters, enemies, haters, and even the very dishonest Fake News'\
+'Media, a Happy and Healthy New Year. 2018 will be a great year for America!  Donald J. Trump'\
+'(@realDonaldTrump) December 31, 2017Trump s tweet went down about as welll as you d expect.What kind'\
+'of president sends a New Year s greeting like this despicable, petty, infantile gibberish? Only'\
+'Trump! His lack of decency won t even allow him to rise above the gutter long enough to wish the'\
+'American citizens a happy new year!  Bishop Talbert Swan (@TalbertSwan) December 31, 2017no one'\
+'likes you  Calvin (@calvinstowell) December 31, 2017Your impeachment would make 2018 a great year'\
+'for America, but I ll also accept regaining control of Congress.  Miranda Yaver (@mirandayaver)'\
+'December 31, 2017Do you hear yourself talk? When you have to include that many people that hate you'\
+'you have to wonder? Why do the they all hate me?  Alan Sandoval (@AlanSandoval13) December 31,'\
+'2017Who uses the word Haters in a New Years wish??  Marlene (@marlene399) December 31, 2017You cant'\
+'just say happy new year?  Koren pollitt (@Korencarpenter) December 31, 2017Here s Trump s New Years'\
+'Eve tweet from 2016.Happy New Year to all, including to my many enemies and those who have fought me'\
+'and lost so badly they just don t know what to do. Love!  Donald J. Trump (@realDonaldTrump)'\
+'December 31, 2016This is nothing new for Trump. He s been doing this for years.Trump has directed'\
+'messages to his  enemies  and  haters  for New Year s, Easter, Thanksgiving, and the anniversary of'\
+'9/11. pic.twitter.com/4FPAe2KypA  Daniel Dale (@ddale8) December 31, 2017Trump s holiday tweets are'\
+'clearly not presidential.How long did he work at Hallmark before becoming President?  Steven Goodine'\
+'(@SGoodine) December 31, 2017He s always been like this . . . the only difference is that in the'\
+'last few years, his filter has been breaking down.  Roy Schulze (@thbthttt) December 31, 2017Who,'\
+'apart from a teenager uses the term haters?  Wendy (@WendyWhistles) December 31, 2017he s a fucking'\
+'5 year old  Who Knows (@rainyday80) December 31, 2017So, to all the people who voted for this a hole'\
+'thinking he would change once he got into power, you were wrong! 70-year-old men don t change and'\
+'now he s a year older.Photo by Andrew Burton/Getty Images.'\
 
-with open('tokenizer.pkl', 'rb') as f:
-    tokenizer = pickle.load(f)
 
-seq = tokenizer.texts_to_sequences(cleanedArticleNoStem)
-sequence.pad_sequences(seq, maxlen=500, padding='post')
+#cleanedArticleNoStem = process_text(inputArticle, length=False, stem=True)
+def ask_robot_answer_pls(inputArticle):
+    cleanedArticleNoStem = process_text(inputArticle, length=False, stem=True)
+    df = pd.DataFrame([cleanedArticleNoStem], columns=['article'])
 
-#print(seq)
-flat_seq = [item for sublist in seq for item in sublist]
-flat_seq = [str(item) for sublist in seq for item in sublist]
-payload = ','.join(flat_seq)
-#print(payload)
+    with open('tokenizer.pkl', 'rb') as f:
+        tokenizer = pickle.load(f)
 
-# Call sagemaker endpoint
-from botocore.config import Config
+    seq = tokenizer.texts_to_sequences(df['article'])
+    seq = sequence.pad_sequences(seq, maxlen=500, padding='post')
+    seq = pd.DataFrame(seq)
 
-config = Config(
-        region_name='ap-southeast-1',
-        )
+    #should have 1 row x 500 columns
+    #print(seq.head())
 
-session = boto3.Session(profile_name='tinggitecc-dev')
-runtime = session.client('runtime.sagemaker', config=config)
-response = runtime.invoke_endpoint(EndpointName='tensorflow-training-2020-08-28-05-46-18-544',
-                                       ContentType='text/csv',
-                                       Body=payload)
-#print(response)
-result = json.loads(response['Body'].read().decode())
-print(result)
+    payload = seq.to_csv(header=False, index=False)
+
+    # Call sagemaker endpoint
+    from botocore.config import Config
+
+    config = Config(
+            proxies={'https': '192.168.49.1:8000'},
+            region_name='ap-southeast-1',
+            )
+
+    # Sini kalau kat lambda kena letak key dalam env var
+    session = boto3.Session(profile_name='tinggitecc-dev')
+    runtime = session.client('runtime.sagemaker', config=config)
+    response = runtime.invoke_endpoint(EndpointName='tinggitecc-fnd-model-endpoint',
+                                           ContentType='text/csv',
+                                           Body=payload)
+
+    result = json.loads(response['Body'].read().decode())
+    print(result)
+
+print("True article")
+ask_robot_answer_pls(trueArticle)
+print("False article")
+ask_robot_answer_pls(falseArticle)
 
