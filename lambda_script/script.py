@@ -55,6 +55,46 @@ trueArticle = 'WASHINGTON (Reuters) - The head of a conservative Republican fact
 'California. The package far exceeded the $44 billion requested by the Trump administration. The'\
 'Senate has not yet voted on the aid. '
 
+trueArticle2 = 'WEST PALM BEACH, Fla./WASHINGTON (Reuters) - The White House said on Friday it was set to kick off'\
+'talks next week with Republican and Democratic congressional leaders on immigration policy,'\
+'government spending and other issues that need to be wrapped up early in the new year. The expected'\
+'flurry of legislative activity comes as Republicans and Democrats begin to set the stage for midterm'\
+'congressional elections in November. President Donald Trump’s Republican Party is eager to maintain'\
+'control of Congress while Democrats look for openings to wrest seats away in the Senate and the'\
+'House of Representatives. On Wednesday, Trump’s budget chief Mick Mulvaney and legislative affairs'\
+'director Marc Short will meet with Senate Majority Leader Mitch McConnell and House Speaker Paul'\
+'Ryan - both Republicans - and their Democratic counterparts, Senator Chuck Schumer and'\
+'Representative Nancy Pelosi, the White House said. That will be followed up with a weekend of'\
+'strategy sessions for Trump, McConnell and Ryan on Jan. 6 and 7 at the Camp David presidential'\
+'retreat in Maryland, according to the White House. The Senate returns to work on Jan. 3 and the'\
+'House on Jan. 8. Congress passed a short-term government funding bill last week before taking its'\
+'Christmas break, but needs to come to an agreement on defense spending and various domestic programs'\
+'by Jan. 19, or the government will shut down. Also on the agenda for lawmakers is disaster aid for'\
+'people hit by hurricanes in Puerto Rico, Texas and Florida, and by wildfires in California. The'\
+'House passed an $81 billion package in December, which the Senate did not take up. The White House'\
+'has asked for a smaller figure, $44 billion. Deadlines also loom for soon-to-expire protections for'\
+'young adult immigrants who entered the country illegally as children, known as “Dreamers.” In'\
+'September, Trump ended Democratic former President Barack Obama’s Deferred Action for Childhood'\
+'Arrivals (DACA) program, which protected Dreamers from deportation and provided work permits,'\
+'effective in March, giving Congress until then to devise a long-term solution. Democrats, some'\
+'Republicans and a number of large companies have pushed for DACA protections to continue. Trump and'\
+'other Republicans have said that will not happen without Congress approving broader immigration'\
+'policy changes and tougher border security. Democrats oppose funding for a wall promised by Trump'\
+'along the U.S.-Mexican border.  “The Democrats have been told, and fully understand, that there can'\
+'be no DACA without the desperately needed WALL at the Southern Border and an END to the horrible'\
+'Chain Migration & ridiculous Lottery System of Immigration etc,” Trump said in a Twitter post on'\
+'Friday. Trump wants to overhaul immigration rules for extended families and others seeking to live'\
+'in the United States. Republican U.S. Senator Jeff Flake, a frequent critic of the president, said'\
+'he would work with Trump to protect Dreamers. “We can fix DACA in a way that beefs up border'\
+'security, stops chain migration for the DREAMers, and addresses the unfairness of the diversity'\
+'lottery. If POTUS (Trump) wants to protect these kids, we want to help him keep that promise,” Flake'\
+'wrote on Twitter. Congress in early 2018 also must raise the U.S. debt ceiling to avoid a government'\
+'default. The U.S. Treasury would exhaust all of its borrowing options and run dry of cash to pay its'\
+'bills by late March or early April if Congress does not raise the debt ceiling before then,'\
+'according to the nonpartisan Congressional Budget Office. Trump, who won his first major legislative'\
+'victory with the passage of a major tax overhaul this month, has also promised a major'\
+'infrastructure plan. '\
+
 falseArticle = 'Donald Trump just couldn t wish all Americans a Happy New Year and leave it at'\
 'that. Instead, he had to give a shout out to his enemies, haters and  the very dishonest fake news'\
 'media.  The former reality show star had just one job to do and he couldn t do it. As our Country'\
@@ -85,6 +125,27 @@ falseArticle = 'Donald Trump just couldn t wish all Americans a Happy New Year a
 '5 year old  Who Knows (@rainyday80) December 31, 2017So, to all the people who voted for this a hole'\
 'thinking he would change once he got into power, you were wrong! 70-year-old men don t change and'\
 'now he s a year older.Photo by Andrew Burton/Getty Images.'\
+
+falseArticle2 = 'House Intelligence Committee Chairman Devin Nunes is going to have a bad day. He s'\
+'been under the assumption, like many of us, that the Christopher Steele-dossier was what prompted'\
+'the Russia investigation so he s been lashing out at the Department of Justice and the FBI in order'\
+'to protect Trump. As it happens, the dossier is not what started the investigation, according to'\
+'documents obtained by the New York Times.Former Trump campaign adviser George Papadopoulos was drunk'\
+'in a wine bar when he revealed knowledge of Russian opposition research on Hillary Clinton.On top of'\
+'that, Papadopoulos wasn t just a covfefe boy for Trump, as his administration has alleged. He had a'\
+'much larger role, but none so damning as being a drunken fool in a wine bar. Coffee boys  don t help'\
+'to arrange a New York meeting between Trump and President Abdel Fattah el-Sisi of Egypt two months'\
+'before the election. It was known before that the former aide set up meetings with world leaders for'\
+'Trump, but team Trump ran with him being merely a coffee boy.In May 2016, Papadopoulos revealed to'\
+'Australian diplomat Alexander Downer that Russian officials were shopping around possible dirt on'\
+'then-Democratic presidential nominee Hillary Clinton. Exactly how much Mr. Papadopoulos said that'\
+'night at the Kensington Wine Rooms with the Australian, Alexander Downer, is unclear,  the report'\
+'states.  But two months later, when leaked Democratic emails began appearing online, Australian'\
+'officials passed the information about Mr. Papadopoulos to their American counterparts, according to'\
+'four current and former American and foreign officials with direct knowledge of the Australians'\
+'role. Papadopoulos pleaded guilty to lying to the F.B.I. and is now a cooperating witness with'\
+'Special Counsel Robert Mueller s team.This isn t a presidency. It s a badly scripted reality TV'\
+'show.Photo by Win McNamee/Getty Images.'\
 
 
 #cleanedArticleNoStem = process_text(inputArticle, length=False, stem=True)
@@ -124,6 +185,11 @@ def ask_robot_answer_pls(inputArticle):
 
 print("True article")
 ask_robot_answer_pls(trueArticle)
+print("True article")
+ask_robot_answer_pls(trueArticle2)
+
 print("False article")
 ask_robot_answer_pls(falseArticle)
+print("False article")
+ask_robot_answer_pls(falseArticle2)
 
