@@ -1,10 +1,5 @@
-# Install dependencies
+# Install dependencies untuk flask app
+
 ```shell
-pip3 install -r requirements.txt
+pip3 install flask csv json boto3 pickle pandas tensorflow
 ```
-
-[Sini ada script lambda untuk call sagamaker endpoint](https://aws.amazon.com/blogs/machine-learning/call-an-amazon-sagemaker-model-endpoint-using-amazon-api-gateway-and-aws-lambda/)
-
-# TODO:
-- [x] Make script call sagemaker endpoint  
-- [x] Make script runnable in lambda environment.

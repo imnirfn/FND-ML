@@ -1,12 +1,10 @@
 import flask
-from flask import request
-import os
-import io
 import csv
 import json
 import boto3
 import pickle
 import pandas as pd
+from flask import request
 from helper import process_text
 from tensorflow.keras.preprocessing import sequence
 
