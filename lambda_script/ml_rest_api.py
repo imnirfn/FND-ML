@@ -15,6 +15,7 @@ app.config["DEBUG"] = True
 
 @app.route('/', methods=['POST'])
 def handler():
+    print(request.get_json())
     article = request.get_json()['data']['article']
     cleanedArticleNoStem = process_text(article, length=False, stem=True)
     df = pd.DataFrame([cleanedArticleNoStem], columns=['article'])
