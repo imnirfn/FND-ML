@@ -17,7 +17,6 @@ app.config["DEBUG"] = True
 def handler():
     print(request.get_json())
     article = request.get_json()['data']['article']
-    article='Amazon.com, Inc. is located in Seattle, WA and was founded July 5th, 1994 by Jeff Bezos, allowing customers to buy everything from books to blenders. Seattle is north of Portland and south of Vancouver, BC. Other notable Seattle - based companies are Starbucks and Boeing.'
     cleanedArticleNoStem = process_text(article, length=False, stem=True)
     df = pd.DataFrame([cleanedArticleNoStem], columns=['article'])
 
@@ -40,7 +39,7 @@ def handler():
     result = json.loads(response['Body'].read().decode())
     result['predictions'] = result['predictions'][0][0]
 
-    comprehend = boto3.client('comprehend')
+    comprehend = session.client('comprehend')
     response = comprehend.detect_sentiment(
             Text=article,
             LanguageCode='en'
