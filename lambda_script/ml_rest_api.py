@@ -38,6 +38,7 @@ def handler():
                                            Body=payload)
 
     result = json.loads(response['Body'].read().decode())
+    result['predictions'] = result['predictions'][0][0]
 
     comprehend = boto3.client('comprehend')
     response = comprehend.detect_sentiment(
